@@ -17,6 +17,7 @@ const userInputs = document.querySelectorAll('input');
 // other way to access all inputs
 //const userInputs2 = document.getElementsByTagName('input');
 
+const movieList = [];
 
 const toggleMovieModal = () => {
 
@@ -43,6 +44,7 @@ const toggleBackground = () => {
 
 const cancelAddMovieHandler = () => {
     toggleMovieModal();
+    clearMovieInputs();
 };
 
 const backgroundClickHandler = () => {
@@ -59,7 +61,22 @@ const addMovieHandler = () => {
         return;
     }
 
+    const newMovie = {
+        movieTitle: title,
+        movieImageUrl: imageUrl,
+        movieRating: rating
+    };
 
+    movieList.push(newMovie);
+    console.log(movieList);
+    toggleMovieModal();
+    clearMovieInputs();
+};
+
+const clearMovieInputs = () => {
+    for (const userIn of userInputs) {
+        userIn.value = '';
+    }
 };
 
 startAddMovieButton.addEventListener('click', toggleMovieModal);
