@@ -18,6 +18,34 @@ const userInputs = document.querySelectorAll('input');
 //const userInputs2 = document.getElementsByTagName('input');
 
 const movieList = [];
+const movieSection = document.getElementById('movie-list');
+const entryBox = document.getElementById('entry-text');
+
+const updateUI = () => {
+    if (movieList.length === 0) {
+        entryBox.style.display = 'block';
+    } else {
+        entryBox.style.display = 'none';
+    }
+};
+
+const renderNewMovieUI = (title, imageUrl, rating) => {
+    const movieItem = document.createElement('li');
+    movieItem.className = 'movie-element';
+    movieItem.innerHTML = `
+            <div class="movie-element__image">
+                <img src="${imageUrl}" alt="${title}" />
+            </div>
+            <div class="movie-element__info">
+                <h2>${title}</h2>
+                <p>${rating}/5 stars</p>
+            </div>
+        `;
+    const listRoot = document.getElementById('movie-list');
+    console.log(movieItem);
+    console.log(listRoot);
+    listRoot.append(movieItem);
+};
 
 const toggleMovieModal = () => {
 
@@ -68,9 +96,10 @@ const addMovieHandler = () => {
     };
 
     movieList.push(newMovie);
-    console.log(movieList);
     toggleMovieModal();
     clearMovieInputs();
+    renderNewMovieUI(newMovie.movieTitle, newMovie.movieImageUrl, newMovie.movieRating);
+    updateUI();
 };
 
 const clearMovieInputs = () => {
