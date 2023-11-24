@@ -42,8 +42,6 @@ const renderNewMovieUI = (title, imageUrl, rating) => {
             </div>
         `;
     const listRoot = document.getElementById('movie-list');
-    console.log(movieItem);
-    console.log(listRoot);
     listRoot.append(movieItem);
 };
 
