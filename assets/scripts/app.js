@@ -20,6 +20,7 @@ const userInputs = document.querySelectorAll('input');
 const movieList = [];
 const movieSection = document.getElementById('movie-list');
 const entryBox = document.getElementById('entry-text');
+const listRoot = document.getElementById('movie-list');
 
 const updateUI = () => {
     if (movieList.length === 0) {
@@ -29,7 +30,7 @@ const updateUI = () => {
     }
 };
 
-const renderNewMovieUI = (title, imageUrl, rating) => {
+const renderNewMovieUI = (id, title, imageUrl, rating) => {
     const movieItem = document.createElement('li');
     movieItem.className = 'movie-element';
     movieItem.innerHTML = `
@@ -41,8 +42,22 @@ const renderNewMovieUI = (title, imageUrl, rating) => {
                 <p>${rating}/5 stars</p>
             </div>
         `;
-    const listRoot = document.getElementById('movie-list');
+    movieItem.addEventListener('click', deleteMovieHandler.bind(null, id));
     listRoot.append(movieItem);
+    
+};
+
+const deleteMovieHandler = (movieId) => {
+    let movieIndex = 0;
+    for (const movie of movieList) {
+        if (movie.movieId === movieId) {
+            break;
+        }
+        movieIndex++;
+    }
+    movieList.splice(movieIndex, 1);
+    listRoot.children[movieIndex].remove();
+    //listRoot.removeChild(listRoot.children[movieIndex]); - other approach
 };
 
 const toggleMovieModal = () => {
@@ -88,6 +103,7 @@ const addMovieHandler = () => {
     }
 
     const newMovie = {
+        movieId: Math.random().toString(),
         movieTitle: title,
         movieImageUrl: imageUrl,
         movieRating: rating
@@ -96,7 +112,7 @@ const addMovieHandler = () => {
     movieList.push(newMovie);
     toggleMovieModal();
     clearMovieInputs();
-    renderNewMovieUI(newMovie.movieTitle, newMovie.movieImageUrl, newMovie.movieRating);
+    renderNewMovieUI(newMovie.movieId, newMovie.movieTitle, newMovie.movieImageUrl, newMovie.movieRating);
     updateUI();
 };
 
